@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="public/css/main.css">
+    <script src="public/scripts/script.js" defer></script>
+
+    <title>TactiMation</title>
+</head>
+<body> 
+    <div class="heading">
+        <div class="container heading">
+            <a href="#">Tacti<span class="site-name-half">Mation</span></a>
+            <p class="subheading">Create tactical animations with ease</p>
+            <p class="info">New here? Watch this 60 seconds demo!</p>
+        </div>
+    </div>
+    <main>
+        <div class="container main"> 
+            <div class="pitch">
+                <div class="pitch-canvas">    
+                    <canvas id="pitch" width="800" height="518">
+                    </canvas>
+                </div>
+                <div class="circle left" draggable="true"></div>
+                <div class="circle left" draggable="true"></div>
+                <div class="circle left" draggable="true"></div>
+                <div class="circle left" draggable="true"></div>
+                <div class="circle left" draggable="true"></div>
+                <div class="circle left" draggable="true"></div>
+                <div class="circle left" draggable="true"></div>
+                <div class="circle left" draggable="true"></div>
+                <div class="circle left" draggable="true"></div>
+                <div class="circle left" draggable="true"></div>
+                <div class="circle left" draggable="true"></div>
+
+                <div class="circle right" draggable="true"></div>
+                <div class="circle right" draggable="true"></div>
+                <div class="circle right" draggable="true"></div>
+                <div class="circle right" draggable="true"></div>
+                <div class="circle right" draggable="true"></div>
+                <div class="circle right" draggable="true"></div>
+                <div class="circle right" draggable="true"></div>
+                <div class="circle right" draggable="true"></div>
+                <div class="circle right" draggable="true"></div>
+                <div class="circle right" draggable="true"></div>
+                <div class="circle right" draggable="true"></div>   
+
+                <div class="circle ball"  draggable="true"></div>   
+
+            </div>
+            <div class="control-panel">
+                <div class="control-panel-body">
+                    <div class="control-panel-section title">
+                        <h3>CONTROLS</h3>                    
+                    </div>
+                    <div class="control-panel-section animation-controls">
+                        <div class="controls">   
+                            <div class="button-text">
+                                <button type="button" class="control-button startstop start" title="Start recording animation"></button>                       
+                                <p>Start/Stop</p>
+                            </div>   
+                            <div class="button-text">
+                                <button type="button" class="control-button play" title="Play back recorded animation"></button>                             
+                                <p>Play</p>
+                            </div>
+                            <div class="button-text">
+                                <button type="button" class="control-button reset" title="Reset"></button>
+                                <p>Reset</p>
+                            </div>
+                            <div class="button-text">
+                                <button type="button" class="control-button save" title="Save animation"></button>
+                                <p>Save</p>
+                            </div>
+                        </div>
+                        <p class="control-panel-text anim-control">Animation Controls</p>
+                    </div>
+                    <div class="control-panel-section switches">
+                        <div class="switch-1">
+                            <div class="title">
+                                <p>Opposition Team</p>
+                            </div>
+                            <div class="switch">
+                                <label class="switch opposition">
+                                    <input type="checkbox" id="opposition-team" name="opposition-team" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="switch-2">
+                            <div class="title">
+                                <p>Juego de Posición</p>
+                            </div>
+                            <div class="switch">
+                                <label class="switch jdp">
+                                    <input type="checkbox" id="jdp" name="jdp">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="control-panel-section sliders">
+                        <div class="slidecontainer">
+                            <input class="delay-slider" type="range" min="50" max="100" value="75" step="1">
+                            <p class="control-panel-text">Animation Delay</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p class="credit">Created with &#128151 by <b> <a href="https://twitter.com/abhisheksh_98">Abhishek Sharma</a> </b> <b class="project-name">| Project Github</b></p>
+    </footer>
+</body>
+</html>

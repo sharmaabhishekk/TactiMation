@@ -1,0 +1,386 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;1,700&display=swap");
+* {
+  margin: 0;
+  border: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background-color: black;
+  background-image: url(http://www.zingerbugimages.com/backgrounds/indigo_textured_rock_seamless_pattern.jpg);
+  background-position: top left;
+  background-repeat: repeat;
+  background-attachment: fixed;
+}
+
+.container {
+  margin-left: 10px;
+}
+
+.heading {
+  margin-top: 20px;
+}
+
+.heading a {
+  text-decoration: none;
+  text-shadow: 1px 1px silver;
+  color: dodgerblue;
+  font-size: xx-large;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.heading .site-name-half {
+  text-decoration: none;
+  color: indigo;
+  font-size: xx-large;
+  line-height: 1;
+}
+
+.heading .subheading {
+  font-size: medium;
+  color: dodgerblue;
+  margin-top: 0px;
+}
+
+.heading .info {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-size: small;
+  margin-top: 1em;
+}
+
+main {
+  margin-top: 20px;
+}
+
+.main {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin: 20px;
+}
+
+#pitch {
+  border: solid 10px #53c653;
+  box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+}
+
+.pitch {
+  position: relative;
+}
+
+/* Make this a positioned parent */
+.circle {
+  border-radius: 50%;
+  border: 1px solid white;
+  cursor: move;
+  position: absolute;
+  top: 50px;
+  left: 30px;
+}
+
+.circle:hover {
+  -webkit-transform: scale(1.15);
+          transform: scale(1.15);
+  /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+
+.left {
+  width: 20px;
+  height: 20px;
+  background: dodgerblue;
+}
+
+.right {
+  width: 20px;
+  height: 20px;
+  background: purple;
+}
+
+.ball {
+  width: 12px;
+  height: 12px;
+  background: black;
+}
+
+.dragging {
+  opacity: .5;
+}
+
+.control-panel {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.control-panel .control-panel-body {
+  margin-left: 1.2em;
+  border-style: solid;
+  border-radius: 1em;
+  border-color: dodgerblue;
+  border-width: 5px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background: white;
+  box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+}
+
+.control-panel-section {
+  border: 2px solid dodgerblue;
+  padding: 1em;
+}
+
+.control-panel-section.title {
+  text-align: center;
+  color: white;
+  font-size: large;
+  font-weight: bold;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  background-color: dodgerblue;
+}
+
+.button-text {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  margin-left: 7px;
+}
+
+.button-text p {
+  font-size: x-small;
+  font-weight: lighter;
+}
+
+.control-panel-section.switches .switch-1 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.control-panel-section.switches .switch-1 .title {
+  padding-right: 1em;
+  font-size: small;
+  font-weight: bold;
+  text-align: center;
+}
+
+.control-panel-section.switches .switch-2 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.control-panel-section.switches .switch-2 .title {
+  padding-right: 1em;
+  font-size: small;
+  font-weight: bold;
+  text-align: center;
+}
+
+.controls {
+  border-style: solid;
+  border-width: thin;
+  border-color: dodgerblue;
+  border-radius: 10px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  padding: 2px;
+}
+
+.controls .control-button {
+  background-position: 50%, 50%;
+  margin: 4px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  background-color: transparent;
+  background-size: 20px 20px;
+}
+
+.controls .start {
+  background-image: url("../images/record.png");
+}
+
+.controls .stop {
+  background-image: url("../images/stop.png");
+}
+
+.controls .play {
+  background-image: url("../images/play.png");
+}
+
+.controls .reset {
+  background-image: url("../images/reset.png");
+}
+
+.controls .save {
+  background-image: url("../images/save.png");
+}
+
+.control-panel-text {
+  font-size: small;
+  font-weight: bold;
+  text-align: center;
+}
+
+.opposition-checkbox {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.slidecontainer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 17px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 13px;
+  width: 13px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  -webkit-box-shadow: 0 0 1px #2196F3;
+          box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(13px);
+  transform: translateX(13px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 17px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+footer {
+  margin-top: 1.4em;
+}
+
+footer a {
+  text-decoration: none;
+  color: dodgerblue;
+}
+
+footer p {
+  text-align: center;
+  font-size: small;
+  color: dodgerblue;
+}
+
+footer .project-name {
+  color: indigo;
+}
+/*# sourceMappingURL=main.css.map */
