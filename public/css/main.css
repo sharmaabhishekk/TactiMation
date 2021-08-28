@@ -377,10 +377,14 @@ footer a {
 footer p {
   text-align: center;
   font-size: small;
+}
+
+footer p a {
   color: dodgerblue;
 }
 
-footer .project-name {
+footer .project-name a {
   color: indigo;
+  text-decoration: none;
 }
 /*# sourceMappingURL=main.css.map */

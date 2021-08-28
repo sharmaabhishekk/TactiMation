@@ -315,9 +315,15 @@ footer {
   p {
     text-align:center;
     font-size: small;
-    color: dodgerblue;
+
+    a {
+      color: dodgerblue;
+    }
   }
   .project-name {
-    color: indigo;
+    a {
+      color: indigo;
+      text-decoration: none;
+    }
   }
 }
