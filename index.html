@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>TactiMation</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,15 +11,24 @@
     <meta name="twitter:site" content="@abhisheksh_98">
     <meta name="twitter:title" content="TactiMation">
     <meta name="twitter:description" content="Create tactical animations with ease">
-    <meta name="twitter:image:src" content="https://raw.githubusercontent.com/sharmaabhishekk/sharmaabhishekk.github.io/master/images/cover_pfp.jpg">
+    <meta name="twitter:image:src" content="./public/images/site-cover-image.png">
     <meta name="twitter:image:width" content="280">
     <meta name="twitter:image:height" content="150">
 
     <link rel="icon" type="image/png" href="./public/images/favicon.ico"/>
     <link rel="stylesheet" href="public/css/main.css">
     <script src="public/scripts/script.js" defer></script>
+    <script src="CCapture.all.min.js"></script>
+    <script src="js/gif.worker.js"></script>
+    <script>
+        var capturer = new CCapture({
+            framerate: 60, 
+            format: 'gif',
+            workersPath: './js/',
+            verbose: true,
+        })
+    </script>
 
-    <title>TactiMation</title>
 </head>
 <body> 
     <div class="heading">
@@ -32,7 +42,7 @@
         <div class="container main"> 
             <div class="pitch">
                 <div class="pitch-canvas">    
-                    <canvas id="pitch" width="800" height="518">
+                    <canvas id="pitch" width="800" height="518" >
                     </canvas>
                 </div>
                 <div class="circle left" draggable="true"></div>
@@ -115,8 +125,8 @@
                     </div>
                     <div class="control-panel-section sliders">
                         <div class="slidecontainer">
-                            <input class="delay-slider" type="range" min="50" max="100" value="75" step="1">
-                            <p class="control-panel-text">Animation Delay</p>
+                            <input class="delay-slider" type="range" min="30" max="100" value="65" step="1">
+                            <p class="control-panel-text">Animation Duration</p>
                         </div>
                     </div>
                 </div>

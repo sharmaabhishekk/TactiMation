@@ -18,22 +18,24 @@ var rightPlayers = document.querySelectorAll(".circle.right");
 var ball = document.querySelector(".circle.ball");
 var draggables = [...leftPlayers, ...rightPlayers, ball];
 
-const N = 30;
+const N = delayValue
 
 let draggablesCoordsObj = new Map();
 for (i=0; i<draggables.length; i++) {
-  draggablesCoordsObj.set(draggables[i], {x:[], y:[], plotXs: [], plotYs: []})
+  draggablesCoordsObj.set(draggables[i], {x:[], y:[], plotXs: [], plotYs: [], userSetX: 0, userSetY: 0})
 }
 
 function drawPitch() {
+  border = 10
     
   // Outer lines
   ctx.beginPath();
-  ctx.rect(0,0, canvas.width, canvas.height);
+  ctx.rect(0,0, canvas.width, canvas.height); // entire pitch + 10 unit border
   ctx.fillStyle = "#53c653";
   ctx.fill();
   ctx.lineWidth = 1;
   ctx.strokeStyle = "#FFF";
+  ctx.rect(border, border, canvas.width - 2*border, canvas.height - 2*border) // pitch outline
   ctx.stroke();
   ctx.closePath();
   
@@ -41,14 +43,14 @@ function drawPitch() {
   
   // Mid line
   ctx.beginPath();
-  ctx.moveTo(canvas.width / 2, 0);
-  ctx.lineTo(canvas.width / 2, canvas.height);
+  ctx.moveTo(canvas.width / 2, border);
+  ctx.lineTo(canvas.width / 2, canvas.height - border);
   ctx.stroke();
   ctx.closePath();
   
   //Mid circle
   ctx.beginPath()
-  ctx.arc(canvas.width / 2, canvas.height / 2, 73, 0, 2*(Math.PI), false);
+  ctx.arc(canvas.width / 2, canvas.height / 2, 70, 0, 2*(Math.PI), false);
   ctx.stroke();
   ctx.closePath();
   //Mid point
@@ -59,18 +61,18 @@ function drawPitch() {
   
   //Home penalty box
   ctx.beginPath();
-  ctx.rect(0, (canvas.height - 322) / 2, 132, 322);
+  ctx.rect(border, (canvas.height - 322) / 2, 132, 322); //w: 132, h: 322
   ctx.stroke();
   ctx.closePath();
   //Home goal box
   ctx.beginPath();
-  ctx.rect(0, (canvas.height - 146) / 2, 44, 146);
+  ctx.rect(border, (canvas.height - 146) / 2, 44, 146); //w: 44, h: 146
   ctx.stroke();
   ctx.closePath();
   //Home goal 
   ctx.beginPath();
-  ctx.moveTo(1, (canvas.height / 2) - 22);
-  ctx.lineTo(1, (canvas.height / 2) + 22);
+  ctx.moveTo(border, (canvas.height / 2) - 22);
+  ctx.lineTo(border, (canvas.height / 2) + 22);
   ctx.lineWidth = 4;
   ctx.stroke();
   ctx.closePath();
@@ -78,75 +80,75 @@ function drawPitch() {
 
   //Home penalty point
   ctx.beginPath()
-  ctx.arc(88, canvas.height / 2, 1, 0, 2*Math.PI, true);
+  ctx.arc(98, canvas.height / 2, 1, 0, 2*Math.PI, true);
   ctx.fill();
   ctx.closePath();
   //Home half circle
   ctx.beginPath()
-  ctx.arc(88, canvas.height / 2, 73, 0.29*Math.PI, 1.71*Math.PI, true);
+  ctx.arc(98, canvas.height / 2, 73, 0.29*Math.PI, 1.71*Math.PI, true);
   ctx.stroke();
   ctx.closePath();
   
   //Away penalty box
   ctx.beginPath();
-  ctx.rect(canvas.width-132, (canvas.height - 322) / 2, 132, 322);
+  ctx.rect(canvas.width-142, (canvas.height - 322) / 2, 132, 322);
   ctx.stroke();
   ctx.closePath();
   //Away goal box
   ctx.beginPath();
-  ctx.rect(canvas.width-44, (canvas.height - 146) / 2, 44, 146);
+  ctx.rect(canvas.width-54, (canvas.height - 146) / 2, 44, 146);
   ctx.stroke();
   ctx.closePath();      
   //Away goal 
   ctx.beginPath();
-  ctx.moveTo(canvas.width-1, (canvas.height / 2) - 22);
-  ctx.lineTo(canvas.width-1, (canvas.height / 2) + 22);
+  ctx.moveTo(canvas.width-border, (canvas.height / 2) - 22);
+  ctx.lineTo(canvas.width-border, (canvas.height / 2) + 22);
   ctx.lineWidth = 4;
   ctx.stroke();
   ctx.closePath();
   ctx.lineWidth = 1;
   //Away penalty point
   ctx.beginPath()
-  ctx.arc(canvas.width-88, canvas.height / 2, 1, 0, 2*Math.PI, true);
+  ctx.arc(canvas.width-98, canvas.height / 2, 1, 0, 2*Math.PI, true);
   ctx.fill();
   ctx.closePath();
   //Away half circle
   ctx.beginPath()
-  ctx.arc(canvas.width-88, canvas.height / 2, 73, 0.71*Math.PI, 1.29*Math.PI, false);
+  ctx.arc(canvas.width-98, canvas.height / 2, 73, 0.71*Math.PI, 1.29*Math.PI, false);
   ctx.stroke();
   ctx.closePath();
         
   //Home L corner
   ctx.beginPath()
-  ctx.arc(0, 0, 8, 0, 0.5*Math.PI, false);
+  ctx.arc(border, border, 8, 0, 0.5*Math.PI, false);
   ctx.stroke();
   ctx.closePath();
   //Home R corner
   ctx.beginPath()
-  ctx.arc(0, canvas.height, 8, 0, 2*Math.PI, true);
+  ctx.arc(border, canvas.height-border, 8, 0, 1.5*Math.PI, true);
   ctx.stroke();
   ctx.closePath();
   //Away R corner
   ctx.beginPath()
-  ctx.arc(canvas.width, 0, 8, 0.5*Math.PI, 1*Math.PI, false);
+  ctx.arc(canvas.width-border, border, 8, 0.5*Math.PI, 1*Math.PI, false);
   ctx.stroke();
   ctx.closePath();
   //Away L corner
   ctx.beginPath()
-  ctx.arc(canvas.width, canvas.height, 8, 1*Math.PI, 1.5*Math.PI, false);
+  ctx.arc(canvas.width-border, canvas.height-border, 8, 1*Math.PI, 1.5*Math.PI, false);
   ctx.stroke();
   ctx.closePath();
 
   ctx.font = "30px Poppins";
   ctx.fillStyle = 'rgba(0,0,0,0.1)';
   ctx.textAlign = "center";
-  ctx.fillText("TactiMation", 700, 510);
+  ctx.fillText("TactiMation", 700, 500);
 }
 
 function addPlayersAndBall() {
   // 4-3-3: gk lb lcb rcb rb lmf cmf rmf lw st rw
-  leftXs = [150, 444, 415, 430, 543, 556, 486, 532, 627, 640, 597];
-  leftYs = [259, 172, 297, 434, 510, 166, 259, 346, 126, 248, 398];
+  leftXs = [150, 444, 415, 430, 528, 556, 486, 532, 627, 640, 597];
+  leftYs = [259, 172, 297, 434, 480, 166, 259, 346, 126, 248, 398];
   // 4-4-2: gk rb rcb lcb lb rw rmf lmf lw lf rf
   rightXs = [723, 654, 659, 659, 660, 606, 613, 613, 598, 531, 521];
   rightYs = [259, 142, 210, 284, 358, 144, 202, 284, 338, 202, 316];
@@ -157,17 +159,23 @@ function addPlayersAndBall() {
   for (i=0; i<leftXs.length; i++) {
     leftPlayers[i].style.top = leftYs[i]+"px";
     leftPlayers[i].style.left = leftXs[i]+"px";
+    draggablesCoordsObj.get(leftPlayers[i])["userSetY"] = leftYs[i]
+    draggablesCoordsObj.get(leftPlayers[i])["userSetX"] = leftXs[i]
+
   }  
 
   for (i=0; i<rightXs.length; i++) {
     rightPlayers[i].style.top = rightYs[i]+"px";
     rightPlayers[i].style.left = rightXs[i]+"px";
+    draggablesCoordsObj.get(rightPlayers[i])["userSetY"] = rightYs[i]
+    draggablesCoordsObj.get(rightPlayers[i])["userSetX"] = rightXs[i] 
   }
 
   //ball 
   ball.style.top = ballY+"px";
   ball.style.left = ballX+"px";
-
+  draggablesCoordsObj.get(ball)["userSetY"] = ballY
+  draggablesCoordsObj.get(ball)["userSetX"] = ballX
 }
 
 function juegoDePosicion() {
@@ -176,85 +184,86 @@ function juegoDePosicion() {
   
   // h1
   ctx.beginPath();
-  ctx.moveTo(132, (canvas.height - 322) / 2);
-  ctx.lineTo(canvas.width - 132, (canvas.height - 322) / 2);
+  ctx.moveTo(142, (canvas.height - 322) / 2);
+  ctx.lineTo(canvas.width - 142, (canvas.height - 322) / 2);
   ctx.stroke();
   ctx.closePath();
 
   // h2
   ctx.beginPath();
-  ctx.moveTo(132, (canvas.height - 146) / 2);
-  ctx.lineTo(canvas.width - 132, (canvas.height - 146) / 2);
+  ctx.moveTo(142, (canvas.height - 146) / 2);
+  ctx.lineTo(canvas.width - 142, (canvas.height - 146) / 2);
   ctx.stroke();
   ctx.closePath();
 
   // h3
   ctx.beginPath();
-  ctx.moveTo(132, 332);
-  ctx.lineTo(canvas.width - 132, 332);
+  ctx.moveTo(142, 332);
+  ctx.lineTo(canvas.width - 142, 332);
   ctx.stroke();
   ctx.closePath(); 
 
   // h4
   ctx.beginPath();
-  ctx.moveTo(132, canvas.height-98);
-  ctx.lineTo(canvas.width - 132, canvas.height-98);
+  ctx.moveTo(142, canvas.height-98);
+  ctx.lineTo(canvas.width - 142, canvas.height-98);
   ctx.stroke();
   ctx.closePath();
 
   // v1
   ctx.beginPath();
-  ctx.moveTo(132, canvas.width);
-  ctx.lineTo(132, canvas.height - 98);
+  ctx.moveTo(142, canvas.height - 10);
+  ctx.lineTo(142, canvas.height - 98);
   ctx.stroke();
   ctx.closePath();  
 
   // v2
   ctx.beginPath();
-  ctx.moveTo(132, 0);
-  ctx.lineTo(132, 98);
+  ctx.moveTo(142, 10);
+  ctx.lineTo(142, 98);
   ctx.stroke();
   ctx.closePath();  
 
   // v3
   ctx.beginPath();
-  ctx.moveTo(canvas.width - 132, 0);
-  ctx.lineTo(canvas.width - 132, 98);
+  ctx.moveTo(canvas.width - 142, 10);
+  ctx.lineTo(canvas.width - 142, 98);
   ctx.stroke();
   ctx.closePath();  
 
   // v4
   ctx.beginPath();
-  ctx.moveTo(canvas.width - 132, canvas.height);
-  ctx.lineTo(canvas.width - 132, canvas.height - 98);
+  ctx.moveTo(canvas.width - 142, canvas.height - 10);
+  ctx.lineTo(canvas.width - 142, canvas.height - 98);
   ctx.stroke();
   ctx.closePath();  
 
   // v5
   ctx.beginPath();
-  ctx.moveTo(canvas.width/2 - 132, 0);
+  ctx.moveTo(canvas.width/2 - 132, 10);
   ctx.lineTo(canvas.width/2 - 132, 98);
   ctx.stroke();
   ctx.closePath(); 
 
   // v6
   ctx.beginPath();
-  ctx.moveTo(canvas.width/2 - 132, canvas.height);
+  ctx.moveTo(canvas.width/2 - 132, canvas.height - 10);
   ctx.lineTo(canvas.width/2 - 132, canvas.height - 98);
   ctx.stroke();
   ctx.closePath(); 
 
   // v7
   ctx.beginPath();
-  ctx.moveTo(canvas.width/2 + 132, 0);
+  ctx.moveTo(canvas.width/2 + 132, 10);
   ctx.lineTo(canvas.width/2 + 132, 98);
   ctx.stroke();
   ctx.closePath(); 
 
   // v8
   ctx.beginPath();
-  ctx.moveTo(canvas.width/2 + 132, canvas.height);
+  ctx.moveTo(canvas.width/2 + 132, canvas.height - 10);
   ctx.lineTo(canvas.width/2 + 132, canvas.height - 98);
+
   ctx.stroke();
   ctx.closePath();       
   ctx.setLineDash([]);
@@ -280,15 +289,6 @@ startStopButton.addEventListener("click", (event) => {
 //reset button
 resetButton.addEventListener('click', (event) => {
   location.reload()
-  // ctx.clearRect(0, 0, canvas.width, canvas.height)
-  // drawPitch()
-  // addPlayersAndBall()
-
-  // startStopButton.title = "Start Recording Animation"
-
-  // for (i=0; i<draggables.length; i++) {
-  //   draggablesCoordsObj.set(draggables[i], {x:[], y:[], plotXs: undefined, plotYs: undefined})
-  // }
 })
 
 //opposition check box
@@ -296,7 +296,7 @@ oppositionInput.addEventListener("click", (event) => {
 
   if (!oppositionInput.checked) {
     for (i=0;i<11;i++) {
-      rightPlayers[i].remove();;
+      rightPlayers[i].remove();
     }
 
   } else {
@@ -330,12 +330,15 @@ draggables.forEach(draggable => {
     draggable.classList.remove("dragging")
     let bound = canvas.getBoundingClientRect();
 
-    let x = event.clientX - bound.left - canvas.clientLeft;
-    let y = event.clientY - bound.top - canvas.clientTop; 
+    let x = event.clientX - bound.left - canvas.clientLeft - 10;
+    let y = event.clientY - bound.top - canvas.clientTop - 10; 
 
     if ((x<=canvas.width) && (x>=0) && (y<=canvas.height) && (y>=0)) {
       draggable.style.left = x+"px";
       draggable.style.top = y+"px";
+      draggablesCoordsObj.get(draggable)["userSetX"] = x
+      draggablesCoordsObj.get(draggable)["userSetY"] = y
+
     } 
   })
 
@@ -344,8 +347,8 @@ draggables.forEach(draggable => {
     if (startStopButton.classList.contains("stop")) {
       let bound = canvas.getBoundingClientRect();
 
-      let x = event.clientX - bound.left - canvas.clientLeft;
-      let y = event.clientY - bound.top - canvas.clientTop;    
+      let x = event.clientX - bound.left - canvas.clientLeft - 10;
+      let y = event.clientY - bound.top - canvas.clientTop - 10;    
       
       draggablesCoordsObj.get(draggable)["x"].push(x)
       draggablesCoordsObj.get(draggable)["y"].push(y)
@@ -373,6 +376,9 @@ async function createAnimation() {
   //clear canvas and redraw pitch (to remove the trails)
   ctx.clearRect(0, 0, canvas.width, canvas.height)
   drawPitch()
+  if (jdpInput.checked) {
+    juegoDePosicion()
+  }
   // only loop over draggables that have changed
   animatedDraggables = draggables.filter(el => draggablesCoordsObj.get(el)["x"].length > 0)
   for (i=0; i<animatedDraggables.length; i++) {
@@ -382,10 +388,8 @@ async function createAnimation() {
 
     if (N<draggableXs.length) {
       var indices = linspace(0, draggableXs.length - 1, N).map(idx => Math.round(idx))
-      console.log("n less than draggables", indices)
       plotXs = indices.map(idx => draggableXs[idx]) //of length N   
     } else {
-      console.log("n not less than")
       plotXs = linspace(draggableXs[0], draggableXs[draggableXs.length-2], N)
     }
 
@@ -395,8 +399,7 @@ async function createAnimation() {
     } else {
       plotYs = linspace(draggableYs[0], draggableYs[draggableYs.length-2], N)
     }
-    console.log(plotXs)
-    console.log(plotYs)
+
     draggablesCoordsObj.get(draggable)["plotXs"] = plotXs
     draggablesCoordsObj.get(draggable)["plotYs"] = plotYs
 }
@@ -412,6 +415,65 @@ async function createAnimation() {
 }
 
 // save video helper and event listener
+saveButton.addEventListener("click", async () => {
+  draggables.forEach(draggable => draggable.remove())
+  animatedDraggables = draggables.filter(el => draggablesCoordsObj.get(el)["x"].length > 0)
+  nonAnimatedDraggables = draggables.filter(el => draggablesCoordsObj.get(el)["x"].length == 0)
+  capturer.start() 
+  for (j=0; j<N-1; j++) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    drawPitch()
+    if (jdpInput.checked) {
+      juegoDePosicion()
+    }
+
+    animatedDraggables.forEach(draggable => {
+      var color = draggable.classList.contains("ball") ? "black" : (draggable.classList.contains("left") ? "dodgerblue" : "purple")
+      var radius = draggable.classList.contains("ball") ? 5 : 10
+      ctx.beginPath()
+      ctx.save()
+      ctx.shadowColor = "black";
+      ctx.shadowBlur = 1;
+      ctx.shadowOffsetX = 1;
+      ctx.shadowOffsetY = 1;
+      ctx.shadowColor = "white";
+      ctx.arc(draggablesCoordsObj.get(draggable)["plotXs"][j], 
+              draggablesCoordsObj.get(draggable)["plotYs"][j], 
+              radius, 0, 2*Math.PI, true)
+      ctx.strokeStyle = 'white'
+      ctx.fillStyle = color        
+      ctx.stroke();  
+      ctx.fill();
+      ctx.closePath();
+      ctx.restore()      
+    })
+
+    nonAnimatedDraggables.forEach(draggable => {
+      var color = draggable.classList.contains("ball") ? "black" : (draggable.classList.contains("left") ? "dodgerblue" : "purple")
+      var radius = draggable.classList.contains("ball") ? 5 : 10 
+      ctx.beginPath()
+      ctx.save()
+      ctx.shadowBlur = 1;
+      ctx.shadowOffsetX = 1;
+      ctx.shadowOffsetY = 1;
+      ctx.shadowColor = "white";
+      ctx.arc(draggablesCoordsObj.get(draggable)["userSetX"], 
+              draggablesCoordsObj.get(draggable)["userSetY"], 
+              radius, 0, 2*Math.PI, true)
+      ctx.strokeStyle = 'white'
+      ctx.fillStyle = color        
+      ctx.stroke();  
+      ctx.fill();
+      ctx.closePath();
+      ctx.restore() 
+    })
+    capturer.capture(canvas);
+
+  }
+  capturer.stop();
+  capturer.save();
+})
+
 
 // helper functions sleep and linspace
 function sleep(ms) {
