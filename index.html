@@ -11,21 +11,21 @@
     <meta name="twitter:site" content="@abhisheksh_98">
     <meta name="twitter:title" content="TactiMation">
     <meta name="twitter:description" content="Create tactical animations with ease">
-    <meta name="twitter:image:src" content="./public/images/site-cover-image.png">
+    <meta name="twitter:image:src" content="https://raw.githubusercontent.com/sharmaabhishekk/TactiMation/main/public/images/site-cover-image.PNG">
     <meta name="twitter:image:width" content="280">
     <meta name="twitter:image:height" content="150">
 
     <link rel="icon" type="image/png" href="./public/images/favicon.ico"/>
     <link rel="stylesheet" href="public/css/main.css">
     <script src="public/scripts/script.js" defer></script>
-    <script src="CCapture.all.min.js"></script>
-    <script src="js/gif.worker.js"></script>
+    <script src="public/scripts/CCapture.all.min.js"></script>
+    <script src="public/scripts/gif.worker.js"></script>
     <script>
         var capturer = new CCapture({
             framerate: 60, 
             format: 'gif',
-            workersPath: './js/',
-            verbose: true,
+            workersPath: './public/scripts/',
+            verbose: false,
         })
     </script>
 

@@ -19,6 +19,7 @@ var ball = document.querySelector(".circle.ball");
 var draggables = [...leftPlayers, ...rightPlayers, ball];
 
 const N = delayValue
+const border = 10
 
 let draggablesCoordsObj = new Map();
 for (i=0; i<draggables.length; i++) {
@@ -26,7 +27,6 @@ for (i=0; i<draggables.length; i++) {
 }
 
 function drawPitch() {
-  border = 10
     
   // Outer lines
   ctx.beginPath();
@@ -330,8 +330,10 @@ draggables.forEach(draggable => {
     draggable.classList.remove("dragging")
     let bound = canvas.getBoundingClientRect();
 
-    let x = event.clientX - bound.left - canvas.clientLeft - 10;
-    let y = event.clientY - bound.top - canvas.clientTop - 10; 
+    let x = event.clientX - bound.left - canvas.clientLeft - 5;
+    let y = event.clientY - bound.top - canvas.clientTop - 5; 
+    console.log(x)
+    console.log(y)
 
     if ((x<=canvas.width) && (x>=0) && (y<=canvas.height) && (y>=0)) {
       draggable.style.left = x+"px";
@@ -347,8 +349,8 @@ draggables.forEach(draggable => {
     if (startStopButton.classList.contains("stop")) {
       let bound = canvas.getBoundingClientRect();
 
-      let x = event.clientX - bound.left - canvas.clientLeft - 10;
-      let y = event.clientY - bound.top - canvas.clientTop - 10;    
+      let x = event.clientX - bound.left - canvas.clientLeft - 5;
+      let y = event.clientY - bound.top - canvas.clientTop - 5;    
       
       draggablesCoordsObj.get(draggable)["x"].push(x)
       draggablesCoordsObj.get(draggable)["y"].push(y)
@@ -429,17 +431,13 @@ saveButton.addEventListener("click", async () => {
 
     animatedDraggables.forEach(draggable => {
       var color = draggable.classList.contains("ball") ? "black" : (draggable.classList.contains("left") ? "dodgerblue" : "purple")
-      var radius = draggable.classList.contains("ball") ? 5 : 10
+      var radius = draggable.classList.contains("ball") ? 4 : 9
       ctx.beginPath()
       ctx.save()
-      ctx.shadowColor = "black";
-      ctx.shadowBlur = 1;
-      ctx.shadowOffsetX = 1;
-      ctx.shadowOffsetY = 1;
-      ctx.shadowColor = "white";
-      ctx.arc(draggablesCoordsObj.get(draggable)["plotXs"][j], 
-              draggablesCoordsObj.get(draggable)["plotYs"][j], 
+      ctx.arc(draggablesCoordsObj.get(draggable)["plotXs"][j]+border, 
+              draggablesCoordsObj.get(draggable)["plotYs"][j]+border, 
               radius, 0, 2*Math.PI, true)
+      ctx.lineWidth = 2;     
       ctx.strokeStyle = 'white'
       ctx.fillStyle = color        
       ctx.stroke();  
@@ -450,16 +448,14 @@ saveButton.addEventListener("click", async () => {
 
     nonAnimatedDraggables.forEach(draggable => {
       var color = draggable.classList.contains("ball") ? "black" : (draggable.classList.contains("left") ? "dodgerblue" : "purple")
-      var radius = draggable.classList.contains("ball") ? 5 : 10 
+      var radius = draggable.classList.contains("ball") ? 4 : 9 
       ctx.beginPath()
       ctx.save()
-      ctx.shadowBlur = 1;
-      ctx.shadowOffsetX = 1;
-      ctx.shadowOffsetY = 1;
-      ctx.shadowColor = "white";
-      ctx.arc(draggablesCoordsObj.get(draggable)["userSetX"], 
-              draggablesCoordsObj.get(draggable)["userSetY"], 
+
+      ctx.arc(draggablesCoordsObj.get(draggable)["userSetX"]+border, 
+              draggablesCoordsObj.get(draggable)["userSetY"]+border, 
               radius, 0, 2*Math.PI, true)
+      ctx.lineWidth = 2;
       ctx.strokeStyle = 'white'
       ctx.fillStyle = color        
       ctx.stroke();  
