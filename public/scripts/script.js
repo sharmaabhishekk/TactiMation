@@ -21,10 +21,17 @@ var draggables = [...leftPlayers, ...rightPlayers, ball];
 const N = delayValue
 const border = 10
 
+/*
+x & y : actual drag coordinates gotten from the user while dragging
+userSetX & userSetY: the new positions of the objects that the user sets before starting a scene
+plotXs & plotYs: recomputed N-length xs and ys - the actual path where we'll animate the objects moving
+*/
 let draggablesCoordsObj = new Map();
 for (i=0; i<draggables.length; i++) {
   draggablesCoordsObj.set(draggables[i], {x:[], y:[], plotXs: [], plotYs: [], userSetX: 0, userSetY: 0})
-}
+} 
+
+
 
 function drawPitch() {
     
@@ -332,8 +339,6 @@ draggables.forEach(draggable => {
 
     let x = event.clientX - bound.left - canvas.clientLeft - 5;
     let y = event.clientY - bound.top - canvas.clientTop - 5; 
-    console.log(x)
-    console.log(y)
 
     if ((x<=canvas.width) && (x>=0) && (y<=canvas.height) && (y>=0)) {
       draggable.style.left = x+"px";
@@ -374,100 +379,110 @@ draggables.forEach(draggable => {
 playBackButton.addEventListener('click', createAnimation)
 
 async function createAnimation() {
-
-  //clear canvas and redraw pitch (to remove the trails)
-  ctx.clearRect(0, 0, canvas.width, canvas.height)
-  drawPitch()
-  if (jdpInput.checked) {
-    juegoDePosicion()
-  }
-  // only loop over draggables that have changed
-  animatedDraggables = draggables.filter(el => draggablesCoordsObj.get(el)["x"].length > 0)
-  for (i=0; i<animatedDraggables.length; i++) {
-    var draggable = animatedDraggables[i]
-    var draggableXs = draggablesCoordsObj.get(draggable)["x"]
-    var draggableYs = draggablesCoordsObj.get(draggable)["y"]
-
-    if (N<draggableXs.length) {
-      var indices = linspace(0, draggableXs.length - 1, N).map(idx => Math.round(idx))
-      plotXs = indices.map(idx => draggableXs[idx]) //of length N   
-    } else {
-      plotXs = linspace(draggableXs[0], draggableXs[draggableXs.length-2], N)
-    }
-
-    if (N<draggableYs.length) {
-      var indices = linspace(0, draggableXs.length - 1, N).map(idx => Math.round(idx))
-      plotYs = indices.map(idx => draggableYs[idx]) //of length N   
-    } else {
-      plotYs = linspace(draggableYs[0], draggableYs[draggableYs.length-2], N)
-    }
-
-    draggablesCoordsObj.get(draggable)["plotXs"] = plotXs
-    draggablesCoordsObj.get(draggable)["plotYs"] = plotYs
-}
-
-    for (j=0; j<N-1; j++) {
-      await sleep(delayValue);
-      animatedDraggables.forEach(draggable => {
-        draggable.style.left = draggablesCoordsObj.get(draggable)["plotXs"][j]+"px"
-        draggable.style.top = draggablesCoordsObj.get(draggable)["plotYs"][j]+"px"
-      })
-    }
-  
-}
-
-// save video helper and event listener
-saveButton.addEventListener("click", async () => {
-  draggables.forEach(draggable => draggable.remove())
-  animatedDraggables = draggables.filter(el => draggablesCoordsObj.get(el)["x"].length > 0)
-  nonAnimatedDraggables = draggables.filter(el => draggablesCoordsObj.get(el)["x"].length == 0)
-  capturer.start() 
-  for (j=0; j<N-1; j++) {
+  animatedDraggables = draggables.filter(el => draggablesCoordsObj.get(el)["x"].length > 0) // fire, if there's an animation
+  if (animatedDraggables.length > 0) {
+      //clear canvas and redraw pitch (to remove the trails)
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     drawPitch()
     if (jdpInput.checked) {
       juegoDePosicion()
     }
+    // only loop over draggables that have changed
+    animatedDraggables = draggables.filter(el => draggablesCoordsObj.get(el)["x"].length > 0)
+    for (i=0; i<animatedDraggables.length; i++) {
+      var draggable = animatedDraggables[i]
+      var draggableXs = draggablesCoordsObj.get(draggable)["x"]
+      var draggableYs = draggablesCoordsObj.get(draggable)["y"]
 
-    animatedDraggables.forEach(draggable => {
-      var color = draggable.classList.contains("ball") ? "black" : (draggable.classList.contains("left") ? "dodgerblue" : "purple")
-      var radius = draggable.classList.contains("ball") ? 4 : 9
-      ctx.beginPath()
-      ctx.save()
-      ctx.arc(draggablesCoordsObj.get(draggable)["plotXs"][j]+border, 
-              draggablesCoordsObj.get(draggable)["plotYs"][j]+border, 
-              radius, 0, 2*Math.PI, true)
-      ctx.lineWidth = 2;     
-      ctx.strokeStyle = 'white'
-      ctx.fillStyle = color        
-      ctx.stroke();  
-      ctx.fill();
-      ctx.closePath();
-      ctx.restore()      
-    })
+      if (N<draggableXs.length) {
+        var indices = linspace(0, draggableXs.length - 1, N).map(idx => Math.round(idx))
+        plotXs = indices.map(idx => draggableXs[idx]) //of length N   
+      } else {
+        plotXs = linspace(draggableXs[0], draggableXs[draggableXs.length-2], N)
+      }
 
-    nonAnimatedDraggables.forEach(draggable => {
-      var color = draggable.classList.contains("ball") ? "black" : (draggable.classList.contains("left") ? "dodgerblue" : "purple")
-      var radius = draggable.classList.contains("ball") ? 4 : 9 
-      ctx.beginPath()
-      ctx.save()
+      if (N<draggableYs.length) {
+        var indices = linspace(0, draggableXs.length - 1, N).map(idx => Math.round(idx))
+        plotYs = indices.map(idx => draggableYs[idx]) //of length N   
+      } else {
+        plotYs = linspace(draggableYs[0], draggableYs[draggableYs.length-2], N)
+      }
 
-      ctx.arc(draggablesCoordsObj.get(draggable)["userSetX"]+border, 
-              draggablesCoordsObj.get(draggable)["userSetY"]+border, 
-              radius, 0, 2*Math.PI, true)
-      ctx.lineWidth = 2;
-      ctx.strokeStyle = 'white'
-      ctx.fillStyle = color        
-      ctx.stroke();  
-      ctx.fill();
-      ctx.closePath();
-      ctx.restore() 
-    })
-    capturer.capture(canvas);
+      draggablesCoordsObj.get(draggable)["plotXs"] = plotXs
+      draggablesCoordsObj.get(draggable)["plotYs"] = plotYs
+  }
+
+      for (j=0; j<N-1; j++) {
+        await sleep(delayValue);
+        animatedDraggables.forEach(draggable => {
+          draggable.style.left = draggablesCoordsObj.get(draggable)["plotXs"][j]+"px"
+          draggable.style.top = draggablesCoordsObj.get(draggable)["plotYs"][j]+"px"
+        })
+      }
 
   }
-  capturer.stop();
-  capturer.save();
+}
+
+// save video helper and event listener
+saveButton.addEventListener("click", async () => {
+  animatedDraggables = draggables.filter(el => draggablesCoordsObj.get(el)["x"].length > 0) // fire, if there's an animation
+  if (animatedDraggables.length>0) {
+    computedDraggables = animatedDraggables.filter(el => draggablesCoordsObj.get(el)["plotXs"] > 0) // check if play has been clicked
+    if (computedDraggables.length>0) {
+      createAnimation()
+    }
+    draggables.forEach(draggable => draggable.remove())
+    nonAnimatedDraggables = draggables.filter(el => draggablesCoordsObj.get(el)["x"].length == 0)
+    capturer.start() 
+    for (j=0; j<N-1; j++) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      drawPitch()
+      if (jdpInput.checked) {
+        juegoDePosicion()
+      }
+  
+      animatedDraggables.forEach(draggable => {
+        var color = draggable.classList.contains("ball") ? "black" : (draggable.classList.contains("left") ? "dodgerblue" : "purple")
+        var radius = draggable.classList.contains("ball") ? 4 : 9
+        ctx.beginPath()
+        ctx.save()
+        ctx.arc(draggablesCoordsObj.get(draggable)["plotXs"][j]+border, 
+                draggablesCoordsObj.get(draggable)["plotYs"][j]+border, 
+                radius, 0, 2*Math.PI, true)
+        ctx.lineWidth = 2;     
+        ctx.strokeStyle = 'white'
+        ctx.fillStyle = color        
+        ctx.stroke();  
+        ctx.fill();
+        ctx.closePath();
+        ctx.restore()      
+      })
+  
+      nonAnimatedDraggables.forEach(draggable => {
+        var color = draggable.classList.contains("ball") ? "black" : (draggable.classList.contains("left") ? "dodgerblue" : "purple")
+        var radius = draggable.classList.contains("ball") ? 4 : 9 
+        ctx.beginPath()
+        ctx.save()
+  
+        ctx.arc(draggablesCoordsObj.get(draggable)["userSetX"]+border, 
+                draggablesCoordsObj.get(draggable)["userSetY"]+border, 
+                radius, 0, 2*Math.PI, true)
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = 'white'
+        ctx.fillStyle = color        
+        ctx.stroke();  
+        ctx.fill();
+        ctx.closePath();
+        ctx.restore() 
+      })
+      capturer.capture(canvas);
+  
+    }
+    capturer.stop();
+    capturer.save();
+
+  }
+
 })
 
 
