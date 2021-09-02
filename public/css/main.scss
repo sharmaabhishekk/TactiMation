@@ -20,7 +20,7 @@ body {
 
 .heading {
   margin-top: 20px;
-    a {
+    a.sitename{
         text-decoration: none;
         text-shadow: 1px 1px silver;
         color: dodgerblue;
@@ -46,6 +46,14 @@ body {
       justify-content: center;
       font-size:small;
       margin-top: 1em;
+      align-items: baseline;
+    }
+
+    a.demolink {
+      text-decoration: none;
+      color:dodgerblue;
+      padding-left: 3px;
+      font-weight: bold;
     }
 
 }

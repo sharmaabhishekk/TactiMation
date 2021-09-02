@@ -23,7 +23,7 @@ body {
   margin-top: 20px;
 }
 
-.heading a {
+.heading a.sitename {
   text-decoration: none;
   text-shadow: 1px 1px silver;
   color: dodgerblue;
@@ -54,6 +54,16 @@ body {
           justify-content: center;
   font-size: small;
   margin-top: 1em;
+  -webkit-box-align: baseline;
+      -ms-flex-align: baseline;
+          align-items: baseline;
+}
+
+.heading a.demolink {
+  text-decoration: none;
+  color: dodgerblue;
+  padding-left: 3px;
+  font-weight: bold;
 }
 
 main {
